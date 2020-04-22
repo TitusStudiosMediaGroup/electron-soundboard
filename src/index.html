@@ -1,10 +1,58 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    Well hey there!!!
-  </body>
+    <head>
+        <link rel="stylesheet" href="windows/windowcontrols/controls.css">
+        <script src="https://www.titusstudios.net/data/static/js/jquery/3.4.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="winctrlcontainer">
+            <p>CallMeCarson Soundboard</p>
+        </div>
+
+        <div class="winctrlbuttoncontainer">
+          <div align="right" class="winctrlbuttonwrapper">
+              <div id="min-btn" class="winctrlroundbuttonorange"></div>
+              <div id="max-btn" class="winctrlroundbuttongreen"></div>
+              <div id="close-btn" class="winctrlroundbuttonred"></div>
+          </div>
+        </div>
+
+        <button style="font-size: 100px" type="button" onclick="location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';" id="myButton">Click Me to Start!</button>
+
+        <script>
+          (function () {
+              // Retrieve remote BrowserWindow
+              const {BrowserWindow} = require('electron').remote
+
+              function init() {
+                  // Minimize task
+                  document.getElementById("min-btn").addEventListener("click", (e) => {
+                      var window = BrowserWindow.getFocusedWindow();
+                      window.minimize();
+                  });
+
+                  // Maximize window
+                  document.getElementById("max-btn").addEventListener("click", (e) => {
+                      var window = BrowserWindow.getFocusedWindow();
+                      if(window.isMaximized()){
+                          window.unmaximize();
+                      }else{
+                          window.maximize();
+                      }
+                  });
+
+                  // Close app
+                  document.getElementById("close-btn").addEventListener("click", (e) => {
+                      var window = BrowserWindow.getFocusedWindow();
+                      window.close();
+                  });
+              };
+
+              document.onreadystatechange =  () => {
+                  if (document.readyState == "complete") {
+                      init();
+                  }
+              };
+          })();
+          </script>
+    </body>
 </html>

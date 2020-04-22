@@ -1,0 +1,80 @@
+body {
+    margin: 0;
+}
+
+.winctrlcontainer {
+    -webkit-app-region: drag;
+    background-color: #26272b;
+    height: 23px;
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.3;
+    letter-spacing: .75px;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 500;
+    color: #bbb;
+}
+
+.winctrlcontainer p {
+    opacity: 0.5;
+    padding: 3px 0 0 8px;
+}
+
+.winctrlbuttonwrapper {
+    -webkit-app-region: no-drag;
+    margin: -20px 0 0 0;
+    width: fit-content;
+    float: right;
+}
+
+.winctrlroundbuttongreen {
+    height: 13px;
+    width: 13px;
+    border-radius: 10px;
+    background-color: #32d74b;
+    display: inline-block;
+    margin: 0 4px 0 0;
+    opacity: 0.3;
+    transition: opacity .1s ease-in-out;
+    -moz-transition: opacity .1s ease-in-out;
+    -webkit-transition: opacity .1s ease-in-out;
+}
+
+.winctrlroundbuttonorange {
+    height: 13px;
+    width: 13px;
+    border-radius: 10px;
+    background-color: #ff9f0a;
+    display: inline-block;
+    margin: 0 4px 0 0;
+    opacity: 0.3;
+    transition: opacity .1s ease-in-out;
+    -moz-transition: opacity .1s ease-in-out;
+    -webkit-transition: opacity .1s ease-in-out;
+}
+
+
+.winctrlroundbuttonred {
+    height: 13px;
+    width: 13px;
+    border-radius: 10px;
+    background-color: #ff443a;
+    display: inline-block;
+    margin: 0 8px 0 0;
+    opacity: 0.3;
+    transition: opacity .1s ease-in-out;
+    -moz-transition: opacity .1s ease-in-out;
+    -webkit-transition: opacity .1s ease-in-out;
+}
+
+.winctrlroundbuttongreen:hover {
+    opacity: 1;
+}
+
+.winctrlroundbuttonorange:hover {
+    opacity: 1;
+}
+
+.winctrlroundbuttonred:hover {
+    opacity: 1;
+}

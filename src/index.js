@@ -14,7 +14,13 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-  });
+    webPreferences: {
+      nodeIntegration: true
+    },
+    /// show to false mean than the window will proceed with its lifecycle, but will not render until we will show it up
+    show: false,
+    frame: false
+  })
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/index.html`);
@@ -29,12 +35,52 @@ const createWindow = () => {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  /// keep listening on the did-finish-load event, when the mainWindow content has loaded
+  mainWindow.webContents.on('did-finish-load', () => {
+    /// then close the loading screen window and show the main window
+    if (loadingScreen) {
+      loadingScreen.close();
+    }
+    mainWindow.show();
+  });
+};
+
+
+let loadingScreen;
+
+const createLoadingScreen = () => {
+  /// create a browser window
+  loadingScreen = new BrowserWindow(
+    Object.assign({
+      /// define width and height for the window
+      width: 600,
+      height: 370,
+      /// remove the window frame, so it will become a frameless window
+      frame: false,
+      /// and set the transparency, to remove any window background color
+      transparent: true
+    })
+  );
+  loadingScreen.setResizable(false);
+  loadingScreen.loadURL(`file://${__dirname}/windows/loader/loader.html`);
+  loadingScreen.on('closed', () => (loadingScreen = null));
+  loadingScreen.webContents.on('did-finish-load', () => {
+    loadingScreen.show();
+  });
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  createLoadingScreen();
+  /// add a little bit of delay for tutorial purposes, remove when not needed
+  setTimeout(() => {
+    createWindow();
+  }, 20000);
+})
+
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
