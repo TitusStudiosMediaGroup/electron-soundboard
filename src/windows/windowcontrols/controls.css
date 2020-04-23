@@ -22,59 +22,105 @@ body {
 
 .winctrlbuttonwrapper {
     -webkit-app-region: no-drag;
-    margin: -20px 0 0 0;
     width: fit-content;
     float: right;
 }
 
-.winctrlroundbuttongreen {
-    height: 13px;
-    width: 13px;
-    border-radius: 10px;
-    background-color: #32d74b;
+.winctrlbuttonmin {
+    height: 23px;
+    width: 22px;
+    color: #bbb;
     display: inline-block;
-    margin: 0 4px 0 0;
     opacity: 0.3;
-    transition: opacity .1s ease-in-out;
-    -moz-transition: opacity .1s ease-in-out;
-    -webkit-transition: opacity .1s ease-in-out;
+    text-align: center;
 }
 
-.winctrlroundbuttonorange {
-    height: 13px;
-    width: 13px;
-    border-radius: 10px;
-    background-color: #ff9f0a;
+.winctrlbuttonmax {
+    height: 23px;
+    width: 22px;
+    color: #bbb;
     display: inline-block;
-    margin: 0 4px 0 0;
     opacity: 0.3;
-    transition: opacity .1s ease-in-out;
-    -moz-transition: opacity .1s ease-in-out;
-    -webkit-transition: opacity .1s ease-in-out;
+    text-align: center;
+}
+
+.winctrlbuttonclose {
+    height: 23px;
+    width: 22px;
+    color: #bbb;
+    display: inline-block;
+    opacity: 0.3;
+    text-align: center;
+}
+
+.iconmin {
+    width: 11px;
+    height: 2px;
+    background-color: #bbb;
+    margin: auto;
+    margin-top: 13px;
+}
+
+.iconmax {
+    width: 6px;
+    height: 5px;
+    border: solid 2px #bbb;
+    margin: auto;
+    margin-top: 7px;
+}
+
+.iconclose {
+    margin: 5px 0 0 10px;
+    position: absolute;
+}
+
+.iconcloseX1 {
+    width: 2px;
+    height: 12px;
+    background-color: #bbb;
+    transform: rotateY(0deg) rotate(45deg);
+    margin: 0;
+    display: inline-block;
+    position: absolute;
+}
+
+.iconcloseX2 {
+    width: 2px;
+    height: 12px;
+    background-color: #bbb;
+    transform: rotateY(0deg) rotate(-45deg);
+    margin: 0;
+    display: inline-block;
 }
 
 
-.winctrlroundbuttonred {
-    height: 13px;
-    width: 13px;
-    border-radius: 10px;
+.winctrlbuttonmin:hover {
+    opacity: 1;
+    background-color: #313438;
+}
+
+.winctrlbuttonmax:hover {
+    opacity: 1;
+    background-color: #313438;
+}
+
+.winctrlbuttonclose:hover {
+    opacity: 1;
     background-color: #ff443a;
-    display: inline-block;
-    margin: 0 8px 0 0;
-    opacity: 0.3;
-    transition: opacity .1s ease-in-out;
-    -moz-transition: opacity .1s ease-in-out;
-    -webkit-transition: opacity .1s ease-in-out;
 }
 
-.winctrlroundbuttongreen:hover {
-    opacity: 1;
+.winctrlbuttonmin:hover > .iconmin {
+    background-color: #fff;
 }
 
-.winctrlroundbuttonorange:hover {
-    opacity: 1;
+.winctrlbuttonmax:hover > .iconmax {
+    border: solid 2px #fff;
 }
 
-.winctrlroundbuttonred:hover {
-    opacity: 1;
+.winctrlbuttonclose:hover > .iconcloseX1 {
+    border: solid 2px #fff;
+}
+
+.winctrlbuttonclose:hover > .iconcloseX2 {
+    border: solid 2px #fff;
 }
