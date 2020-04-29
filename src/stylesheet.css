@@ -27,7 +27,7 @@ p {
     border-radius: 5px;
     border: solid 2px #343440;
     margin-bottom: 10px;
-    margin-right: 5px;
+    margin-right: 10px;
     transition: .15s ease-in-out;
     -moz-transition: .15s ease-in-out;
     -webkit-transition: .15s ease-in-out;
@@ -180,7 +180,7 @@ footer {
 }
 
 .copyright {
-    display: inline-block;
+    display: block;
     color: #bbb;
     opacity: 0.5;
     font-size: 12;
