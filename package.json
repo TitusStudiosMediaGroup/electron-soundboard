@@ -52,7 +52,8 @@
     "electron-builder": "^22.5.1",
     "electron-squirrel-startup": "^1.0.0",
     "js-yaml": "^3.13.1",
-    "nord": "^0.2.1"
+    "nord": "^0.2.1",
+    "uglify-js": "^3.9.1"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.50",
