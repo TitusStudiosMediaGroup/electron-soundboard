@@ -1,7 +1,7 @@
 {
   "name": "ts-soundboard",
   "productName": "TitusStudios Soundboard",
-  "version": "1.1.0",
+  "version": "1.5.0",
   "description": "Simple soundboard made in HTML5, and built using Electron.",
   "main": "src/index.js",
   "scripts": {
@@ -45,9 +45,14 @@
     }
   },
   "dependencies": {
+    "app-builder": "^6.2.2",
+    "app-builder-bin": "^3.5.6",
+    "app-builder-lib": "^22.5.1",
     "build": "^0.1.4",
     "electron-builder": "^22.5.1",
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "js-yaml": "^3.13.1",
+    "nord": "^0.2.1"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.50",
