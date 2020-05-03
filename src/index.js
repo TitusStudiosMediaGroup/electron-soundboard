@@ -1,18 +1,15 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, dialog, Menu, MenuItem } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
+if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
+
 let mainWindow;
 
 const createWindow = () => {
-  // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1000,
     height: 600,
@@ -21,28 +18,19 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true
     },
-    /// show to false mean than the window will proceed with its lifecycle, but will not render until we will show it up
     show: false,
     frame: false
   })
 
-  // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 
-  // Open the DevTools.
-  /*mainWindow.webContents.openDevTools();*/
+  mainWindow.webContents.openDevTools()
 
-  // Emitted when the window is closed.
   mainWindow.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     mainWindow = null;
   });
 
-  /// keep listening on the did-finish-load event, when the mainWindow content has loaded
   mainWindow.webContents.on('did-finish-load', () => {
-    /// then close the loading screen window and show the main window
     if (loadingScreen) {
       loadingScreen.close();
     }
@@ -51,18 +39,15 @@ const createWindow = () => {
 
 };
 
+
 let loadingScreen;
 
 const createLoadingScreen = () => {
-  /// create a browser window
   loadingScreen = new BrowserWindow(
     Object.assign({
-      /// define width and height for the window
       width: 600,
       height: 370,
-      /// remove the window frame, so it will become a frameless window
       frame: false,
-      /// and set the transparency, to remove any window background color
       transparent: true
     })
   );
@@ -74,34 +59,93 @@ const createLoadingScreen = () => {
   });
 };
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+/*
+const template = [
+  {
+    label: 'Open',
+    submenu: [
+      {
+        label: 'Open File',
+        accelerator: 'CmdOrCtrl+O',
+        click() {
+          openFile();
+        }
+      }
+    ]
+  }
+]
+
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
+*/
+
 app.on('ready', () => {
   createLoadingScreen();
-  /// add a little bit of delay for tutorial purposes, remove when not needed
+
   setTimeout(() => {
     createWindow();
+
+    const contextMenu = new Menu()
+    contextMenu.append(new MenuItem(
+      {
+        label: 'Upload File',
+        accelerator: 'CmdOrCtrl+O',
+        click() {
+          openFile();
+        }
+      }))
+
+      contextMenu.append(new MenuItem(
+        {
+          label: 'Refresh',
+          accelerator: 'CmdOrCtrl+R',
+          click() {
+            mainWindow.reload();
+          }
+        }))
+
+    mainWindow.webContents.on('context-menu', function(e, params) {
+      contextMenu.popup(mainWindow, params.x, params.y)
+    })
   }, 20000);
 })
 
-
-// Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
 app.on('activate', () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow();
   }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+
+function openFile() {
+  const files = dialog.showOpenDialog(mainWindow, {
+    properties: ['openFile', 'multiSelections'],
+    filters: [{ name: 'Audio files (*.mp3)', extensions: ['mp3'] }]
+  }).then(result => {
+    (result.filePaths).forEach(function(file) {
+        copyFile(file)
+      }
+    )
+  }).catch(err => {
+    console.log(err)
+  })
+
+  if(!files) return;
+}
+
+
+function copyFile(selectedFilePath) {
+  const fileName = path.basename((selectedFilePath.toString()))
+
+  fs.copyFile(selectedFilePath, (__dirname + '/audio/' + fileName), (err) => {
+    if(err) {
+      console.log(err)
+    }
+  });
+}

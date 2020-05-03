@@ -26,6 +26,17 @@
         </div>
 
         <div class="appwidget">
+            <div class="confirmdelete">
+                <div class="confirmdeletetextwrapper">
+                    <div class="confirmdeletetext">
+                        <strong><p>Are you sure you want to Delete this Card?</p></strong>
+                        <div class="confirmdeletesubtext">
+                            <p>This cannot be undone</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="playerwrapper" id="cardwidget">
 
             </div>
@@ -50,42 +61,43 @@
             </div>
         </footer>
 
+        <script src="removecard.js"></script>
+
         <script src="cardgenerate.js"></script>
 
         <script>
-          (function () {
-            // Retrieve remote BrowserWindow
-            const {BrowserWindow} = require('electron').remote
+            (function () {
+                const {BrowserWindow} = require('electron').remote
 
-            function init() {
-                // Minimize task
-                document.getElementById("min-btn").addEventListener("click", (e) => {
-                    var window = BrowserWindow.getFocusedWindow();
-                    window.minimize();
-                });
+                function init() {
+                    // Minimize task
+                    document.getElementById("min-btn").addEventListener("click", (e) => {
+                        var window = BrowserWindow.getFocusedWindow();
+                        window.minimize();
+                    });
 
-                // Maximize window
-                document.getElementById("max-btn").addEventListener("click", (e) => {
-                    var window = BrowserWindow.getFocusedWindow();
-                    if(window.isMaximized()){
-                        window.unmaximize();
-                    } else {
-                        window.maximize();
+                    // Maximize window
+                    document.getElementById("max-btn").addEventListener("click", (e) => {
+                        var window = BrowserWindow.getFocusedWindow();
+                        if(window.isMaximized()){
+                            window.unmaximize();
+                        } else {
+                            window.maximize();
+                        }
+                    });
+
+                    // Close app
+                    document.getElementById("close-btn").addEventListener("click", (e) => {
+                        var window = BrowserWindow.getFocusedWindow();
+                        window.close();
+                    });
+                };
+
+                document.onreadystatechange =  () => {
+                    if (document.readyState == "complete") {
+                        init();
                     }
-                });
-
-                // Close app
-                document.getElementById("close-btn").addEventListener("click", (e) => {
-                    var window = BrowserWindow.getFocusedWindow();
-                    window.close();
-                });
-            };
-
-            document.onreadystatechange =  () => {
-                if (document.readyState == "complete") {
-                    init();
-                }
-            };
+                };
             })();
           </script>
     </body>

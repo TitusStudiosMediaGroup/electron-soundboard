@@ -1,0 +1,298 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="windows/windowcontrols/controls.css">
+        <link rel="stylesheet" href="stylesheet.css">
+        <script src="https://www.titusstudios.net/data/static/js/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    </head>
+    <body>
+        <div class="winctrlcontainer" id="windowcotrolcontainer">
+            <div class="winctrlbuttoncontainer">
+            <div align="right" class="winctrlbuttonwrapper">
+                <div id="min-btn" class="winctrlbuttonmin">
+                    <div class="iconmin"></div>
+                </div>
+                <div id="max-btn" class="winctrlbuttonmax">
+                    <div class="iconmax"></div>
+                </div>
+                <div id="close-btn" class="winctrlbuttonclose">
+                    <div class="iconclose">
+                        <div class="iconcloseX1"></div>
+                        <div class="iconcloseX2"></div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="appwidget">
+            <div class="confirmdelete">
+                <div class="confirmdeletetextwrapper">
+                    <div class="confirmdeletetext">
+                        <strong><p>Are you sure you want to Delete this Card?</p></strong>
+                        <div class="confirmdeletesubtext">
+                            <p>This cannot be undone</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="playerwrapper" id="cardwidget">
+
+            </div>
+        </div>
+
+        <div class="footergapfix"></div>
+        
+        <footer>
+            <div class="footerwrapper">
+                <div class="footerline"></div>
+
+                <div class="devbuild">
+                    <i title="You are running a Development Build, bugs may be present." class="fab fa-dev"></i>
+                    <div class="devbuildtext">
+                        <p>You are running a Development Build, bugs may be present.</p>
+                    </div>
+
+                    <div class="copyright">
+                        <p>Copyright © 2020 Titus Studios Media</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            function removeCard(uniCardID) {
+                const audioSourceElement = document.getElementById(uniCardID+"audiosource");
+                const audioFilePath = audioSourceElement.getAttribute('src');
+
+                fs.unlink(audioFilePath, function(err) {
+                    if (err) throw err;
+                }); 
+            }
+        </script>
+
+        <script>
+            function createcard(cardID,filename,audiopath) {
+            var parentlocation = document.getElementById("cardwidget");
+            var playButtonID = (cardID + "play")
+            var pauseButtonID = (cardID + "pause")
+            var audioID = (cardID + "audio")
+            var volumeID = (cardID + "volume")
+            var resetID = (cardID + "reset")
+            var timeID = (cardID + "time")
+            var audiosourceID = (cardID + "audiosource")
+            var playercard = document.createElement("div")
+            var buttonwrapper = document.createElement("div")
+            var playbutton = document.createElement("div")
+            var playbuttontext = document.createElement("p")
+            var pausebutton = document.createElement("div")
+            var pausebuttontext = document.createElement("p")
+            var audio = document.createElement("audio")
+            var source = document.createElement("source")
+            var volumecontrol = document.createElement("div")
+            var input = document.createElement("input")
+            var timereset = document.createElement("div")
+            var timereseticon = document.createElement("i")
+            var deletecard = document.createElement("div")
+            var deletecardicon = document.createElement("i")
+            var timeremaining = document.createElement("div")
+            var time = document.createElement("p")
+            var playercardname = document.createElement("div")
+            var playercardnametext = document.createElement("p")
+        
+            parentlocation.append(playercard)
+            playercard.setAttribute("id",cardID)
+            playercard.setAttribute("class","playercard")
+        
+            playercard.append(buttonwrapper)
+            buttonwrapper.setAttribute("class","buttonwrapper")
+        
+            buttonwrapper.append(playbutton)
+            playbutton.setAttribute("class","playbutton")
+            playbutton.setAttribute("id",playButtonID)
+            playbutton.append(playbuttontext)
+            playbuttontext.innerHTML = "Play"
+        
+            buttonwrapper.append(pausebutton)
+            pausebutton.setAttribute("class","pausebutton")
+            pausebutton.setAttribute("id",pauseButtonID)
+            pausebutton.append(pausebuttontext)
+            pausebuttontext.innerHTML = "Pause"
+        
+            playercard.append(audio)
+            audio.setAttribute("id",audioID)
+            audio.setAttribute("preload","auto")
+        
+            audio.append(source)
+            source.setAttribute("src",audiopath)
+            source.setAttribute("type","audio/mpeg")
+            source.setAttribute("id",audiosourceID)
+        
+            playercard.append(volumecontrol)
+            volumecontrol.setAttribute("class","volumecontrol")
+        
+            volumecontrol.append(input)
+            input.setAttribute("type","range")
+            input.setAttribute("min","0")
+            input.setAttribute("max","100")
+            input.setAttribute("value","100")
+            input.setAttribute("class","volumeslider")
+            input.setAttribute("id",volumeID)
+        
+            playercard.append(timereset)
+            timereset.setAttribute("class","timereset")
+            timereset.setAttribute("id",resetID)
+        
+            timereset.append(timereseticon)
+            timereseticon.setAttribute("class","fas fa-redo")
+
+            playercard.append(deletecard)
+            deletecard.setAttribute("class","deletecard")
+            deletecard.setAttribute("onclick",removeCard(cardID))
+        
+            deletecard.append(deletecardicon)
+            deletecardicon.setAttribute("class","fas fa-trash")
+        
+            playercard.append(timeremaining)
+            timeremaining.setAttribute("class","timeremaining")
+        
+            timeremaining.append(time)
+            time.setAttribute("id",timeID)
+        
+            playercard.append(playercardname)
+            playercardname.setAttribute("class","playercardname")
+        
+            playercardname.append(playercardnametext)
+            playercardnametext.innerHTML = filename
+
+            playercardname.append(playercardnametext)
+        
+            // Audio Stuff
+            
+            var audioelement = audio
+            var pausebutton = document.getElementById(cardID + "pause")
+            var durationelement = document.getElementById(cardID + "time")
+            var volumecontrolslider = document.getElementById(cardID + "volume");
+            var playbuttonAudio = document.getElementById(cardID + "play");
+            var pausebuttonAudio = pausebutton
+            var resetbuttonAudio = document.getElementById(cardID + "reset");
+            
+            playbuttonAudio.onclick = function() {
+                audioelement.play();
+                playercard.style.border = "solid 2px #32d74b";
+            }
+        
+            pausebuttonAudio.onclick = function() {
+                audioelement.pause();
+                playercard.style.border = "solid 2px #343440";
+            }
+        
+            resetbuttonAudio.onclick = function() {
+                audioelement.currentTime = 0;
+            }
+        
+            audioelement.onloadedmetadata = function() {
+                var curtime
+                var totaltime
+        
+                if (Math.round(audioelement.currentTime) < 10) {
+                    curtime = "0:0" + Math.round(audioelement.currentTime)
+                } else if (Math.round(audioelement.currentTime) > 9) {
+                    curtime = "0:" + Math.round(audioelement.currentTime)
+                }
+        
+                if (Math.round(audioelement.duration) < 10) {
+                    totaltime = "0:0" + Math.round(audioelement.duration)
+                } else if (Math.round(audioelement.duration) > 9) {
+                    totaltime = "0:" + Math.round(audioelement.duration)
+                }
+        
+                fadePause()
+        
+                durationelement.innerHTML = curtime + " / " + totaltime
+            };
+            
+            audioelement.ontimeupdate = function() {
+                var curtime
+                var totaltime
+        
+                if (Math.round(audioelement.currentTime) < 10) {
+                    curtime = "0:0" + Math.round(audioelement.currentTime)
+                } else if (Math.round(audioelement.currentTime) > 9) {
+                    curtime = "0:" + Math.round(audioelement.currentTime)
+                }
+        
+                if (Math.round(audioelement.duration) < 10) {
+                    totaltime = "0:0" + Math.round(audioelement.duration)
+                } else if (Math.round(audioelement.duration) > 9) {
+                    totaltime = "0:" + Math.round(audioelement.duration)
+                }
+        
+                fadePause()
+        
+                durationelement.innerHTML = curtime + " / " + totaltime
+            };
+        
+            function fadePause() {
+                if (audioelement.currentTime != audioelement.duration) {
+                    if (audioelement.currentTime != 0) {
+                        pausebutton.style.display = "block";
+                        pausebutton.style.opacity = "1";
+                        pausebutton.style.cursor = "pointer";
+                    }
+                } else {
+                    pausebutton.style.opacity = "0";
+                    pausebutton.style.cursor = "context-menu";
+                    playercard.style.border = "solid 2px #343440";
+                }
+            }
+        
+            volumecontrolslider.oninput = function() {
+                audioelement.volume = (this.value / 100);
+            }
+        }
+        </script>
+        
+        <script>
+            createcard("_00833","fortnite","audio/fortnite.mp3")
+        </script>
+
+        <script>
+          (function () {
+            // Retrieve remote BrowserWindow
+            const {BrowserWindow} = require('electron').remote
+
+            function init() {
+                // Minimize task
+                document.getElementById("min-btn").addEventListener("click", (e) => {
+                    var window = BrowserWindow.getFocusedWindow();
+                    window.minimize();
+                });
+
+                // Maximize window
+                document.getElementById("max-btn").addEventListener("click", (e) => {
+                    var window = BrowserWindow.getFocusedWindow();
+                    if(window.isMaximized()){
+                        window.unmaximize();
+                    } else {
+                        window.maximize();
+                    }
+                });
+
+                // Close app
+                document.getElementById("close-btn").addEventListener("click", (e) => {
+                    var window = BrowserWindow.getFocusedWindow();
+                    window.close();
+                });
+            };
+
+            document.onreadystatechange =  () => {
+                if (document.readyState == "complete") {
+                    init();
+                }
+            };
+            })();
+          </script>
+    </body>
+</html>

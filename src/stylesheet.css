@@ -130,6 +130,7 @@ p {
 }
 
 footer {
+    z-index: 11;
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -282,4 +283,55 @@ footer {
 .timereset:hover {
     opacity: 1;
     cursor: pointer;
+}
+
+.deletecard {
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.3;
+    letter-spacing: .75px;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 500;
+    float: right;
+    margin: 10px;
+    margin-top: 127px;
+    margin-left: 40px;
+    color: #bbb;
+    opacity: 0.5;
+    position: absolute;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    transition: .2s;
+}
+
+.deletecard:hover {
+    opacity: 1;
+    cursor: pointer;
+    color: #ff453a;
+}
+
+.confirmdelete {
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.3;
+    letter-spacing: .75px;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 500;
+    position: fixed;
+    z-index: 10;
+    background-color: #ff453a;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    display: none;
+}
+
+.confirmdeletetextwrapper {
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.confirmdeletetext {
+    text-align: center;
 }

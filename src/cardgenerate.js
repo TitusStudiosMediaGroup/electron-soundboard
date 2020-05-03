@@ -1,5 +1,4 @@
 const path = require('path');
-const fs = require('fs');
 const directoryPath = path.join(__dirname, '/audio');
 
 function createcard(cardID,filename,audiopath) {
@@ -10,6 +9,7 @@ function createcard(cardID,filename,audiopath) {
     var volumeID = (cardID + "volume")
     var resetID = (cardID + "reset")
     var timeID = (cardID + "time")
+    var audiosourceID = (cardID + "audiosource")
     var playercard = document.createElement("div")
     var buttonwrapper = document.createElement("div")
     var playbutton = document.createElement("div")
@@ -22,6 +22,8 @@ function createcard(cardID,filename,audiopath) {
     var input = document.createElement("input")
     var timereset = document.createElement("div")
     var timereseticon = document.createElement("i")
+    var deletecard = document.createElement("div")
+    var deletecardicon = document.createElement("i")
     var timeremaining = document.createElement("div")
     var time = document.createElement("p")
     var playercardname = document.createElement("div")
@@ -53,6 +55,7 @@ function createcard(cardID,filename,audiopath) {
     audio.append(source)
     source.setAttribute("src",audiopath)
     source.setAttribute("type","audio/mpeg")
+    source.setAttribute("id",audiosourceID)
 
     playercard.append(volumecontrol)
     volumecontrol.setAttribute("class","volumecontrol")
@@ -71,6 +74,13 @@ function createcard(cardID,filename,audiopath) {
 
     timereset.append(timereseticon)
     timereseticon.setAttribute("class","fas fa-redo")
+
+    playercard.append(deletecard)
+    deletecard.setAttribute("class","deletecard")
+    deletecard.setAttribute("onclick",removeCard(cardID))
+
+    deletecard.append(deletecardicon)
+    deletecardicon.setAttribute("class","fas fa-trash")
 
     playercard.append(timeremaining)
     timeremaining.setAttribute("class","timeremaining")
