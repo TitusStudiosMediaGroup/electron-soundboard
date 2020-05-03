@@ -1,7 +1,7 @@
 {
   "name": "ts-soundboard",
   "productName": "TitusStudios Soundboard",
-  "version": "1.5.0",
+  "version": "1.6.3",
   "description": "Simple soundboard made in HTML5, and built using Electron.",
   "main": "src/index.js",
   "scripts": {
