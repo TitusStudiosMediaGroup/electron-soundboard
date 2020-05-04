@@ -1,5 +1,19 @@
+const fs = require('fs');
 const path = require('path');
 const directoryPath = path.join(__dirname, '/audio');
+
+function removeCard(CardIDRC) {
+    var audioSourceElement = document.getElementById((CardIDRC + 'audiosource'));
+    var audioFilePath = audioSourceElement.getAttribute('src');
+    var fileName = path.basename((audioFilePath.toString()))
+    var fullPath = directoryPath + fileName
+
+    fs.unlink(fullPath, (err) => {
+        if(err) {
+            return console.log(err);
+        }
+    }); 
+}
 
 function createcard(cardID,filename,audiopath) {
     var parentlocation = document.getElementById("cardwidget");
@@ -77,10 +91,10 @@ function createcard(cardID,filename,audiopath) {
 
     playercard.append(deletecard)
     deletecard.setAttribute("class","deletecard")
-    deletecard.setAttribute("onclick",removeCard(cardID))
 
     deletecard.append(deletecardicon)
     deletecardicon.setAttribute("class","fas fa-trash")
+    deletecardicon.setAttribute("onclick",removeCard(cardID))
 
     playercard.append(timeremaining)
     timeremaining.setAttribute("class","timeremaining")
@@ -185,11 +199,9 @@ fs.readdir(directoryPath, function(err, files) {
     } 
 
     files.forEach(function(file) {
-        const unicardID = ('_' + Math.random().toString(36).substr(2, 9))
-
-        console.log(unicardID);
-
+        var unicardID = ('_' + Math.random().toString(36).substr(2, 9))
         var cardname = file.replace('.mp3','');
+
         createcard(unicardID,cardname,("audio/" + file))
     });
 });
