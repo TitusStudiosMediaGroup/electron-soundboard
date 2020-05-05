@@ -96,15 +96,6 @@ app.on('ready', () => {
 
       contextMenu.append(new MenuItem(
         {
-          label: 'Remove File',
-          accelerator: 'CmdOrCtrl+F',
-          click() {
-            deleteFileConfirm();
-          }
-        }))
-
-      contextMenu.append(new MenuItem(
-        {
           label: 'Refresh',
           accelerator: 'CmdOrCtrl+R',
           click() {

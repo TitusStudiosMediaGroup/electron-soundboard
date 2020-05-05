@@ -123,9 +123,9 @@ body {
 }
 
 .winctrlbuttonclose:hover > .iconcloseX1 {
-    border: solid 2px #fff;
+    background-color: #fff;
 }
 
 .winctrlbuttonclose:hover > .iconcloseX2 {
-    border: solid 2px #fff;
+    background-color: #fff;
 }
