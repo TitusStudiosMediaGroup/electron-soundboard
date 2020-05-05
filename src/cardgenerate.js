@@ -1,3 +1,4 @@
+const { ipcRenderer } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const directoryPath = path.join(__dirname, '/audio');
@@ -6,13 +7,26 @@ function removeCard(CardIDRC) {
     var audioSourceElement = document.getElementById((CardIDRC + 'audiosource'));
     var audioFilePath = audioSourceElement.getAttribute('src');
     var fileName = path.basename((audioFilePath.toString()))
-    var fullPath = directoryPath + fileName
+    var fullPath = (directoryPath + "/" + fileName)
+    var cardElement = document.getElementById(CardIDRC);
 
-    fs.unlink(fullPath, (err) => {
-        if(err) {
-            return console.log(err);
+    let removeCardConfirmData = {
+        data: 1
+    };
+
+    ipcRenderer.send('backendrequest-DeleteConfirm', removeCardConfirmData);
+
+    ipcRenderer.on('frontendrequest-DeleteConfirmed', (event, arg) => {
+        if (arg.rdata == 1) {
+            cardElement.style.display = "none";
+
+            fs.unlink(fullPath, (err) => {
+                if(err) {
+                    return console.log(err);
+                }
+            }); 
         }
-    }); 
+    });
 }
 
 function createcard(cardID,filename,audiopath) {
@@ -24,6 +38,7 @@ function createcard(cardID,filename,audiopath) {
     var resetID = (cardID + "reset")
     var timeID = (cardID + "time")
     var audiosourceID = (cardID + "audiosource")
+    var removeCardFunction = ("removeCard('"+cardID+"')")
     var playercard = document.createElement("div")
     var buttonwrapper = document.createElement("div")
     var playbutton = document.createElement("div")
@@ -94,7 +109,7 @@ function createcard(cardID,filename,audiopath) {
 
     deletecard.append(deletecardicon)
     deletecardicon.setAttribute("class","fas fa-trash")
-    deletecardicon.setAttribute("onclick",removeCard(cardID))
+    deletecardicon.setAttribute("onclick",removeCardFunction)
 
     playercard.append(timeremaining)
     timeremaining.setAttribute("class","timeremaining")

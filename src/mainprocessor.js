@@ -1,4 +1,5 @@
-const { app, BrowserWindow, dialog, Menu, MenuItem } = require('electron');
+/*import installExtension, { REDUX_DEVTOOLS } from 'electron-devtools-installer';*/
+const { app, BrowserWindow, dialog, Menu, MenuItem, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -23,7 +24,7 @@ const createWindow = () => {
   })
 
   mainWindow.loadURL(`file://${__dirname}/index.html`);
-
+  
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
@@ -95,6 +96,15 @@ app.on('ready', () => {
 
       contextMenu.append(new MenuItem(
         {
+          label: 'Remove File',
+          accelerator: 'CmdOrCtrl+F',
+          click() {
+            deleteFileConfirm();
+          }
+        }))
+
+      contextMenu.append(new MenuItem(
+        {
           label: 'Refresh',
           accelerator: 'CmdOrCtrl+R',
           click() {
@@ -105,7 +115,7 @@ app.on('ready', () => {
     mainWindow.webContents.on('context-menu', function(e, params) {
       contextMenu.popup(mainWindow, params.x, params.y)
     })
-  }, 20000);
+  }, /*20000*/ 1000);
 })
 
 app.on('window-all-closed', () => {
@@ -148,3 +158,34 @@ function copyFile(selectedFilePath) {
   });
 }
 
+ipcMain.on('backendrequest-DeleteConfirm', (event, arg) => {
+  function deleteFileConfirm() {
+    const deleteConfirm = dialog.showMessageBoxSync(mainWindow, {
+      type: "warning",
+      buttons: ["Cancel", "OK"],
+      defaultId: 0,
+      message: "Are you sure you want to remove this Card?",
+      detail: "This cannot be undone."
+    })
+    
+    if(!deleteConfirm){
+      return
+    }
+  
+    if(deleteConfirm == 1){
+      deleteFileConfirmed()
+    }
+  }
+  
+  if (arg.data == 1) {
+    deleteFileConfirm()
+  }
+
+  function deleteFileConfirmed() {
+    let removeCardConfirmedData = {
+      rdata: 1
+    };
+  
+    event.sender.send('frontendrequest-DeleteConfirmed',removeCardConfirmedData);
+  }
+});
